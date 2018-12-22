@@ -1,0 +1,105 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "rtorrent.fullname" . }}
+  labels:
+    app: {{ template "rtorrent.name" . }}
+    chart: {{ template "rtorrent.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "rtorrent.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "rtorrent.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-scgi
+          image: nginx:1.13.12
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: conf
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: nginx.conf
+          ports:
+            - name: rpc
+              containerPort: 80
+              protocol: TCP
+
+        - name: {{ .Chart.Name }}-metrics
+          image: aemiller/rtorrent-exporter
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: metrics
+              containerPort: 9135
+              protocol: TCP
+          args: ["-rtorrent-addr", "http://localhost/RPC2"]
+
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          tty: true
+          volumeMounts:
+            - name: rtorrent
+              mountPath: /data/rtorrent
+            - name: conf
+              mountPath: /app/rtorrent_extra.rc
+              subPath: rtorrent_extra.rc
+          {{- if ne (len .Values.extraVolumeMounts) 0 }}
+{{ toYaml .Values.extraVolumeMounts | indent 12 }}
+          {{- end }}
+          ports:
+            - name: scgi
+              containerPort: 5000
+              protocol: TCP
+            - name: rtorrent
+              containerPort: 57778
+              protocol: TCP
+            - name: rtorrent-udp
+              containerPort: 57778
+              protocol: UDP
+            - name: dht
+              containerPort: 57779
+              protocol: TCP
+            - name: dht-udp
+              containerPort: 57779
+              protocol: UDP
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: rtorrent
+        {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            {{- if .Values.persistence.existingClaim }}
+            claimName: {{ .Values.persistence.existingClaim }}
+            {{- else }}
+            claimName: {{ template "rtorrent.fullname" . }}
+            {{- end }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+        - name: conf
+          configMap:
+            name: {{ template "rtorrent.fullname" . }}
+        {{- if ne (len .Values.extraVolumes) 0 }}
+{{ toYaml .Values.extraVolumes | indent 8 }}
+        {{- end }}
+

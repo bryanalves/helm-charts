@@ -1,0 +1,94 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "plex.fullname" . }}
+  labels:
+    app: {{ template "plex.name" . }}
+    chart: {{ template "plex.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "plex.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "plex.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: plex-config
+              mountPath: /config
+            - name: plex-transcode
+              mountPath: /transcode
+            - name: plex-tv
+              mountPath: /data/tv
+            - name: plex-movies
+              mountPath: /data/movies
+            - name: plex-music
+              mountPath: /data/music
+          ports:
+            - name: plex
+              containerPort: 32400
+              protocol: TCP
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: plex-config
+        {{- if .Values.persistence.config.enabled }}
+          persistentVolumeClaim:
+            {{- if .Values.persistence.config.existingClaim }}
+            claimName: {{ .Values.persistence.config.existingClaim }}
+            {{- else }}
+            claimName: {{ template "plex.fullname" . }}-config
+            {{- end }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: plex-transcode
+          emptyDir: {}
+
+        - name: plex-tv
+        {{- if .Values.persistence.tv.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.tv.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: plex-movies
+        {{- if .Values.persistence.movies.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.movies.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: plex-music
+        {{- if .Values.persistence.music.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.music.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+

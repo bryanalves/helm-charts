@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "rtorrent.fullname" . }}
+  labels:
+    app: {{ template "rtorrent.name" . }}
+    chart: {{ template "rtorrent.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: scgi
+      protocol: TCP
+      name: scgi
+    - port: {{ .Values.service.httpPort }}
+      targetPort: rpc
+      protocol: TCP
+      name: rpc
+  selector:
+    app: {{ template "rtorrent.name" . }}
+    release: {{ .Release.Name }}

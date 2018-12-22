@@ -1,0 +1,9 @@
+apiVersion: v1
+appVersion: "1.0"
+home: https://github.com/bryanalves/honeywell_exporter
+description: A prometheus exporter for Honeywell WiFi thermostats
+name: honeywell-exporter
+version: 0.1.0
+maintainers:
+  - name: Bryan Alves
+    email: bryanalves@gmail.com

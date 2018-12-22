@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "sickrage.fullname" . }}
+  labels:
+    app: {{ template "sickrage.name" . }}
+    chart: {{ template "sickrage.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: sickrage
+      protocol: TCP
+      name: sickrage
+  selector:
+    app: {{ template "sickrage.name" . }}
+    release: {{ .Release.Name }}

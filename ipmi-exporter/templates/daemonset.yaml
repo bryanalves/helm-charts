@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+
+metadata:
+  name: {{ template "ipmi-exporter.fullname" . }}
+  labels:
+    app: {{ template "ipmi-exporter.name" . }}
+    chart: {{ template "ipmi-exporter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ template "ipmi-exporter.name" . }}
+        release: {{ .Release.Name }}
+      {{- with .Values.annotations }}
+      annotations:
+{{ toYaml . | indent 10 }}
+      {{- end }}
+    spec:
+      hostNetwork: true
+
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            privileged: true
+          ports:
+            - name: ipmi
+              containerPort: 9289
+              protocol: TCP
+          volumeMounts:
+            - name: ipmi-device
+              mountPath: "{{ .Values.deviceName }}"
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+
+      volumes:
+        - name: ipmi-device
+          hostPath:
+            path: "{{ .Values.deviceName }}"

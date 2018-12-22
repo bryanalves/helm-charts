@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "plex.fullname" . }}
+  labels:
+    app: {{ template "plex.name" . }}
+    chart: {{ template "plex.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: plex
+      protocol: TCP
+      name: plex
+  selector:
+    app: {{ template "plex.name" . }}
+    release: {{ .Release.Name }}

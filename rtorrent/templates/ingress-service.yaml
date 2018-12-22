@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "rtorrent.fullname" . }}-ingress
+  annotations:
+    metallb.universe.tf/allow-shared-ip: rtorrent-ingress
+  labels:
+    app: {{ template "rtorrent.name" . }}
+    chart: {{ template "rtorrent.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.ingressService.type }}
+  externalTrafficPolicy: {{ .Values.ingressService.externalTrafficPolicy }}
+  {{- if .Values.ingressService.externalIPs }}
+  externalIPs:
+{{ toYaml .Values.ingressService.externalIPs | indent 4 }}
+{{- end }}
+{{- if .Values.ingressService.loadBalancerIP }}
+  loadBalancerIP: "{{ .Values.ingressService.loadBalancerIP }}"
+{{- end }}
+  ports:
+    - port: {{ .Values.ingressService.rtorrentPort }}
+      targetPort: rtorrent
+      protocol: TCP
+      name: rtorrent
+
+    - port: {{ .Values.ingressService.dhtPort }}
+      targetPort: dht
+      protocol: TCP
+      name: dht
+
+{{- if (not (eq .Values.ingressService.type "LoadBalancer")) }}
+    - port: {{ .Values.ingressService.rtorrentPort }}
+      targetPort: rtorrent-udp
+      protocol: UDP
+      name: rtorrent-udp
+
+    - port: {{ .Values.ingressService.dhtPort }}
+      targetPort: dht-udp
+      protocol: UDP
+      name: dht-udp
+{{- end}}
+
+  selector:
+    app: {{ template "rtorrent.name" . }}
+    release: {{ .Release.Name }}
+
+{{- if (eq .Values.ingressService.type "LoadBalancer") }}
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "rtorrent.fullname" . }}-ingress-udp
+  annotations:
+    metallb.universe.tf/allow-shared-ip: rtorrent-ingress
+  labels:
+    app: {{ template "rtorrent.name" . }}
+    chart: {{ template "rtorrent.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.ingressService.type }}
+  externalTrafficPolicy: {{ .Values.ingressService.externalTrafficPolicy }}
+  {{- if .Values.ingressService.externalIPs }}
+  externalIPs:
+{{ toYaml .Values.ingressService.externalIPs | indent 4 }}
+{{- end }}
+{{- if .Values.ingressService.loadBalancerIP }}
+  loadBalancerIP: "{{ .Values.ingressService.loadBalancerIP }}"
+{{- end }}
+  ports:
+    - port: {{ .Values.ingressService.rtorrentPort }}
+      targetPort: rtorrent-udp
+      protocol: UDP
+      name: rtorrent-udp
+
+    - port: {{ .Values.ingressService.dhtPort }}
+      targetPort: dht-udp
+      protocol: UDP
+      name: dht-udp
+  selector:
+    app: {{ template "rtorrent.name" . }}
+    release: {{ .Release.Name }}
+{{- end }}

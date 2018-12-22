@@ -1,0 +1,86 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "couchpotato.fullname" . }}
+  labels:
+    app: {{ template "couchpotato.name" . }}
+    chart: {{ template "couchpotato.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "couchpotato.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "couchpotato.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: couchpotato-config
+              mountPath: /config
+            - name: couchpotato-download
+              mountPath: /data/download
+            - name: couchpotato-processed
+              mountPath: /data/processed
+          ports:
+            - name: couchpotato
+              containerPort: 8082
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: couchpotato
+          readinessProbe:
+            httpGet:
+              path: /
+              port: couchpotato
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: couchpotato-config
+        {{- if .Values.persistence.config.enabled }}
+          persistentVolumeClaim:
+            {{- if .Values.persistence.config.existingClaim }}
+            claimName: {{ .Values.persistence.config.existingClaim }}
+            {{- else }}
+            claimName: {{ template "couchpotato.fullname" . }}-config
+            {{- end }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: couchpotato-download
+        {{- if .Values.persistence.downloads.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.downloads.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: couchpotato-processed
+        {{- if .Values.persistence.processed.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.processed.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}

@@ -1,0 +1,9 @@
+apiVersion: v1
+appVersion: "0.0.2"
+home: https://github.com/kwk/docker-registry-frontend
+description: A simple web ui frontend for v2 docker registries
+name: registry-ui
+version: 0.1.0
+maintainers:
+  - name: Bryan Alves
+    email: bryanalves@gmail.com
