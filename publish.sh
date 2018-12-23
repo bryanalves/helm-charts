@@ -21,14 +21,14 @@ build () {
     mkdir -p "out/$chart_name"
     helm package --save=false -d "out/$chart_name" "$chart_name"
   done
-  helm repo index out
 }
 
 publish () {
-  echo ">> Publishing to $GITHUB_PAGES_BRANCH branch of $GITHUB_PAGES_REPO"
+  echo ">> Publishing to $GITHUB_PAGES_BRANCH"
   git checkout "$GITHUB_PAGES_BRANCH"
   git pull --rebase origin $GITHUB_PAGES_BRANCH
   cp -an ./out/* ./
+  helm repo index .
   git add .
   git commit -m "Chart sync"
   git push origin "$GITHUB_PAGES_BRANCH"
