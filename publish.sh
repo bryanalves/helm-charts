@@ -28,7 +28,7 @@ publish () {
   git checkout "$GITHUB_PAGES_BRANCH"
   git pull --rebase origin $GITHUB_PAGES_BRANCH
   cp -an ./out/* ./
-  helm repo index .
+  helm repo index --merge index.yaml .
   git add .
   git commit -m "Chart sync"
   git push origin "$GITHUB_PAGES_BRANCH"
