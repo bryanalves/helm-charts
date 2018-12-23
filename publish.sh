@@ -2,19 +2,6 @@
 set -e
 set -o pipefail
 
-WORKING_DIRECTORY="$PWD"
-
-[ "$GITHUB_PAGES_REPO" ] || {
-  #https://user:MYTOKEN@github.com/user/helm-charts.git
-  echo "ERROR: Environment variable GITHUB_PAGES_REPO is required"
-  #exit 1
-}
-
-[ "$GITHUB_USER" ] || {
-  echo "ERROR: Environment variable GITHUB_USER is required"
-  #exit 1
-}
-
 [ -z "$GITHUB_PAGES_BRANCH" ] && GITHUB_PAGES_BRANCH=gh-pages
 
 [ -z "$HELM_VERSION" ] && HELM_VERSION=2.12.0
@@ -22,22 +9,6 @@ WORKING_DIRECTORY="$PWD"
 helm () {
   echo ">>>> helm $@"
   (docker run --rm -v $(pwd):/apps alpine/helm:$HELM_VERSION "$@")
-}
-
-gitt() {
-  docker run \
-    --rm \
-    -e GITHUB_PAGES_REPO=$GITHUB_PAGES_REPO \
-    -e GITHUB_USER=$GITHUB_USER \
-    -e GITHUB_PAGES_BRANCH=$GITHUB_PAGES_BRANCH \
-    -v $(pwd):/tmp/work/ \
-    --entrypoint=/bin/sh \
-    alpine/git -c '\
-      cd /tmp/work; \
-      git config user.email "$GITHUB_USER@users.noreply.github.com"; \
-      git config user.name $GITHUB_USER; \
-      $@
-    '
 }
 
 build () {
