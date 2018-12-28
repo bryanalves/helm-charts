@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "sickchill.fullname" . }}
+  labels:
+    app: {{ template "sickchill.name" . }}
+    chart: {{ template "sickchill.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: sickchill
+      protocol: TCP
+      name: sickchill
+  selector:
+    app: {{ template "sickchill.name" . }}
+    release: {{ .Release.Name }}

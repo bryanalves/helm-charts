@@ -1,0 +1,85 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "sickchill.fullname" . }}
+  labels:
+    app: {{ template "sickchill.name" . }}
+    chart: {{ template "sickchill.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "sickchill.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "sickchill.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: sickchill
+              mountPath: /config
+            - name: downloads
+              mountPath: /data/download
+            - name: processed
+              mountPath: /data/processed
+            - name: localtime
+              mountPath: /etc/localtime
+              readOnly: true
+          ports:
+            - name: sickchill
+              containerPort: 8081
+              protocol: TCP
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: sickchill
+        {{- if .Values.persistence.config.enabled }}
+          persistentVolumeClaim:
+            {{- if .Values.persistence.config.existingClaim }}
+            claimName: {{ .Values.persistence.config.existingClaim }}
+            {{- else }}
+            claimName: {{ template "sickchill.fullname" . }}
+            {{- end }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: downloads
+        {{- if .Values.persistence.downloads.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.downloads.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: processed
+        {{- if .Values.persistence.processed.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.processed.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
