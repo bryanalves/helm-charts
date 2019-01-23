@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: registry.my.bumbum.dance/smart_exporter
+  repository: bryanalves/smart_exporter
   tag: 0.2
   pullPolicy: Always
 
