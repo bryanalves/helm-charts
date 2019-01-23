@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: {{ template "smart-exporter.fullname" . }}
   labels:
-    app: {{ template "smart-exporter.name" . }}
-    chart: {{ template "smart-exporter.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ template "smart-exporter.name" . }}
+    helm.sh/chart: {{ template "smart-exporter.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
   {{- with .Values.service.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
@@ -19,6 +19,6 @@ spec:
       protocol: TCP
       name: metrics
   selector:
-    app: {{ template "smart-exporter.name" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ template "smart-exporter.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
 
