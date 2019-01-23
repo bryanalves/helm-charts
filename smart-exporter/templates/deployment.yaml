@@ -25,9 +25,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           securityContext:
             privileged: true
-          volumeMounts:
-            - name: smart
-              mountPath: /srv/smart
+          ports:
+            - name: metrics
+              containerPort: 9100
+              protocol: TCP
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
@@ -42,15 +43,3 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      volumes:
-        - name: smart
-          {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            {{- if .Values.persistence.existingClaim }}
-            claimName: {{ .Values.persistence.existingClaim }}
-            {{- else }}
-            claimName: {{ template "smart-exporter.fullname" . }}
-            {{- end }}
-          {{- else }}
-          emptyDir: {}
-          {{- end -}}

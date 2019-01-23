@@ -1,10 +1,10 @@
 # Smart-exporter Helm Chart
 
-Prometheus "exporter" for HDD S.M.A.R.T. data that uses node\_exporter textcollector
+Prometheus "exporter" for HDD S.M.A.R.T. data that uses traditional http collection
 
 ## Chart Details
 
-This chart will install an instance of Couchpotato on the service type of your choice (default ClusterIP) with support for a trio of PVCs
+This chart will install an instance of smart-exporter on the service type of your choice (default ClusterIP) that will export smartmon.sh metrics over http
 
 ## Installing the Chart
 
@@ -29,21 +29,19 @@ The command removes all the Kubernetes components associated with the chart and 
 
 The following table lists the configurable parameters of this chart and their default values
 
-| Parameter                 | Description               | Default                    |
-| ------------------------- | ------------------------- | -------------------------- |
-| replicaCount              | Number of instances       | 1                          |
-| image.repository          | Repository name           | bryanalves/smart\_exporter |
-| image.tag                 | Repository tag            | latest                     |
-| image.pullPolicy          | Repository pull policy    | IfNotPresent               |
-| persistence.enabled       | Enable persistent storage | true                       |
-| persistence.accessMode    | Storage PVC AccessMode    | ReadWriteMany              |
-| persistence.size          | Storage PVC request size  | 1Gi                        |
-| persistence.storageClass  | Storage PVC request size  | standard                   |
-| persistence.existingClaim | Existing storage PVC name | nil                        |
-| resources                 | Pod resources             | {}                         |
-| nodeSelector              | Pod node selector         | {}                         |
-| tolerations               | Pod tolerations           | []                         |
-| affinity                  | Pod affinity              | {}                         |
+| Parameter                 | Description                 | Default                        |
+| ------------------------- | --------------------------- | ------------------------------ |
+| replicaCount              | Number of instances         | 1                              |
+| image.repository          | Repository name             | bryanalves/smart\_exporter     |
+| image.tag                 | Repository tag              | 0.2                            |
+| image.pullPolicy          | Repository pull policy      | IfNotPresent                   |
+| service.type              | Type of service             | ClusterIP                      |
+| service.port              | Port for the service        | 80                             |
+| service.annotations       | Annotations for the service | {prometheus.io/scrape: "true"} |
+| resources                 | Pod resources               | {}                             |
+| nodeSelector              | Pod node selector           | {}                             |
+| tolerations               | Pod tolerations             | []                             |
+| affinity                  | Pod affinity                | {}                             |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 

@@ -1,9 +1,9 @@
 apiVersion: v1
-appVersion: "6.6"
+appVersion: "0.2"
 home: https://github.com/prometheus/node_exporter/blob/master/text_collector_examples/smartmon.sh
-description: Writes smart metrics to a file for consumption via prometheus node_exporter
+description: Smart metrics exporter for prometheus
 name: smart-exporter
-version: 0.1.0
+version: 0.2.0
 maintainers:
   - name: Bryan Alves
     email: bryanalves@gmail.com

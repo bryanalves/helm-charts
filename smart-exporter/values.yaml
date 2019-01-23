@@ -6,18 +6,17 @@ replicaCount: 1
 
 image:
   repository: registry.my.bumbum.dance/smart_exporter
-  tag: latest
+  tag: 0.2
   pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  annotations:
+    prometheus.io/scrape: "true"
 
 nameOverride: ""
 fullnameOverride: ""
-
-persistence:
-  accessMode: ReadWriteMany
-  size: 1Gi
-  enabled: true
-  storageClass: standard
-  #existingClaim: null
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
