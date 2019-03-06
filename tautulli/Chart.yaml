@@ -1,0 +1,8 @@
+apiVersion: v1
+appVersion: "2.1.26"
+description: Plex monitoring/tracking
+name: tautulli
+version: 0.1.0
+maintainers:
+  - name: Bryan Alves
+    email: bryanalves@gmail.com
