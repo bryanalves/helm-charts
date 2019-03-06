@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "emby.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "emby.name" . }}
+    helm.sh/chart: {{ include "emby.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: emby-http
+      protocol: TCP
+      name: emby-http
+  selector:
+    app.kubernetes.io/name: {{ include "emby.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

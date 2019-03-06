@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "emby.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "emby.name" . }}
+    helm.sh/chart: {{ include "emby.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "emby.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "emby.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: emby-config
+              mountPath: /config
+            - name: emby-tv
+              mountPath: /mnt/tv
+            - name: emby-movies
+              mountPath: /mnt/movies
+            - name: emby-music
+              mountPath: /mnt/music
+
+          env:
+              - name: UID
+                value: "{{ .Values.uid }}"
+              - name: GID
+                value: "{{ .Values.gid }}"
+              - name: GIDLIST
+                value: "{{ .Values.gidlist }}"
+
+          ports:
+            - name: emby-http
+              containerPort: 8096
+              protocol: TCP
+            - name: emby-https
+              containerPort: 8920
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      volumes:
+        - name: emby-config
+          {{- if .Values.persistence.config.enabled }}
+          persistentVolumeClaim:
+            {{- if .Values.persistence.config.existingClaim }}
+            claimName: {{ .Values.persistence.config.existingClaim }}
+            {{- else }}
+            claimName: {{ template "emby.fullname" . }}-config
+            {{- end }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: emby-tv
+        {{- if .Values.persistence.tv.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.tv.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: emby-movies
+        {{- if .Values.persistence.movies.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.movies.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+
+        - name: emby-music
+        {{- if .Values.persistence.music.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.music.existingClaim }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
