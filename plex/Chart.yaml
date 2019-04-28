@@ -1,9 +1,9 @@
 apiVersion: v1
-appVersion: "1.14.0"
+appVersion: "1.15.4.993"
 home: https://www.plex.tv/
 description: A media center and sharing solution
 name: plex
-version: 0.1.0
+version: 0.1.1
 maintainers:
   - name: Bryan Alves
     email: bryanalves@gmail.com
