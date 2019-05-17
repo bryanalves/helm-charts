@@ -10,7 +10,7 @@ timezone: America/New_York
 
 image:
   repository: linuxserver/ombi
-  tag: 137
+  tag: 3.0.4572-ls45
   pullPolicy: IfNotPresent
 
 nameOverride: ""
