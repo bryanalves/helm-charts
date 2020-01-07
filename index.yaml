@@ -3,7 +3,7 @@ entries:
   couchpotato:
   - apiVersion: v1
     appVersion: Varies
-    created: 2019-08-13T00:55:20.339765864Z
+    created: 2020-01-07T02:54:26.918306472Z
     description: Daemon for managing movie libraries
     digest: 9fa66c199b4c672a14cb3f55b7e1ce82b6df612b864109e2c1865c5027a7a486
     home: https://couchpota.to/
@@ -17,7 +17,7 @@ entries:
   emby:
   - apiVersion: v1
     appVersion: 3.6.0.81
-    created: 2019-08-13T00:55:20.34002715Z
+    created: 2020-01-07T02:54:26.918559091Z
     description: Emby media server
     digest: 71fb94e0e0c72b923460a0ca804070fd562e2b62573f91653894d27d6feb0328
     maintainers:
@@ -30,7 +30,7 @@ entries:
   fluentd:
   - apiVersion: v1
     appVersion: "1.2"
-    created: 2019-08-13T00:55:20.340255967Z
+    created: 2020-01-07T02:54:26.91879613Z
     description: A chart for fluentd that centers config at /fluentd/etc to match
       dockerhub images
     digest: 2887673007e8949082b6b67eb6cd7cdeee365f512d433caece1dc0822a3dcbcc
@@ -45,7 +45,7 @@ entries:
   generic-web:
   - apiVersion: v1
     appVersion: 1.13.12
-    created: 2019-08-13T00:55:20.340494281Z
+    created: 2020-01-07T02:54:26.919076149Z
     description: A generic webserver wrapper that is based on configmaps
     digest: 8ef7a065832b39318a529648ec310de2e362394ddfd07708fa8f67ddbfdd7936
     home: https://www.nginx.com/
@@ -59,7 +59,7 @@ entries:
   honeywell-exporter:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-13T00:55:20.340705678Z
+    created: 2020-01-07T02:54:26.919337642Z
     description: A prometheus exporter for Honeywell WiFi thermostats
     digest: 5383b024c44f2bbaa005fc33fb17aa4255ddecd146effb9541a9727ffaf0fa91
     home: https://github.com/bryanalves/honeywell_exporter
@@ -73,7 +73,7 @@ entries:
   ipmi-exporter:
   - apiVersion: v1
     appVersion: 2.2.0
-    created: 2019-08-13T00:55:20.340902336Z
+    created: 2020-01-07T02:54:26.919534682Z
     description: A prometheus exporter for IPMI
     digest: 1f986153244af6ab3de6ecdc0d90af31a6922bb297699dd988b1aea1eeb05caf
     home: https://github.com/lovoo/ipmi_exporter
@@ -87,7 +87,7 @@ entries:
   jackett:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-13T00:55:20.34113182Z
+    created: 2020-01-07T02:54:26.919747441Z
     description: A Helm chart for Kubernetes
     digest: 2d384ed2c263750237b95883a513a2d2f646cc197b5053b8f4c69ba30dc722aa
     name: jackett
@@ -96,8 +96,20 @@ entries:
     version: 0.1.0
   ombi:
   - apiVersion: v1
+    appVersion: 3.0.4958-ls72
+    created: 2020-01-07T02:54:26.920490894Z
+    description: Media request management frontend
+    digest: 5a6d0b01ca143dcb6dc4c173e51391ebc3240a04ba7f1b913de16f7e586469ba
+    maintainers:
+    - email: bryanalves@gmail.com
+      name: Bryan Alves
+    name: ombi
+    urls:
+    - ombi/ombi-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v1
     appVersion: 3.0.4572-ls45
-    created: 2019-08-13T00:55:20.341612852Z
+    created: 2020-01-07T02:54:26.920208506Z
     description: Media request management frontend
     digest: ca83cbe4152c1a9189f3a243e7c4c675150719eaa64ee1d3fb6315e6bd8b557e
     maintainers:
@@ -109,7 +121,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "137"
-    created: 2019-08-13T00:55:20.341366797Z
+    created: 2020-01-07T02:54:26.919977854Z
     description: Media request management frontend
     digest: eb3c0c52c6a216579dfa58d34a2edc0a5970b21fde76c9ea3863e20179fbaa61
     maintainers:
@@ -122,7 +134,7 @@ entries:
   plex:
   - apiVersion: v1
     appVersion: 1.15.4.993
-    created: 2019-08-13T00:55:20.342325291Z
+    created: 2020-01-07T02:54:26.921220587Z
     description: A media center and sharing solution
     digest: a1c2b97d223d065962af78d3eecb6ec5e9625f848c0dc9d91deeeeccf516b92f
     home: https://www.plex.tv/
@@ -135,7 +147,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 1.15.4.993
-    created: 2019-08-13T00:55:20.342094613Z
+    created: 2020-01-07T02:54:26.920962926Z
     description: A media center and sharing solution
     digest: 4af7be2ade2f73c961c4137171b16a717910c8f7b64630b8a1e7663bf70dc952
     home: https://www.plex.tv/
@@ -148,7 +160,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: 1.14.0
-    created: 2019-08-13T00:55:20.341867185Z
+    created: 2020-01-07T02:54:26.920725262Z
     description: A media center and sharing solution
     digest: a861644fc12293780d30fc2b9f9679b0f23c188e3598e9a3408df011b5bb4090
     home: https://www.plex.tv/
@@ -162,7 +174,7 @@ entries:
   registry-ui:
   - apiVersion: v1
     appVersion: 0.0.2
-    created: 2019-08-13T00:55:20.342538224Z
+    created: 2020-01-07T02:54:26.921456356Z
     description: A simple web ui frontend for v2 docker registries
     digest: d5322e296549fef5f25af620fc8902df580c8565f64c3907905ccc1b985adc8a
     home: https://github.com/kwk/docker-registry-frontend
@@ -176,7 +188,7 @@ entries:
   rtorrent:
   - apiVersion: v1
     appVersion: 0.9.6
-    created: 2019-08-13T00:55:20.342779725Z
+    created: 2020-01-07T02:54:26.921735987Z
     description: A CLI/XMLRPC torrent client
     digest: a2f1749341b8fcaa03fdb995d4dd1fed9e0ea7116ea37b600974566881b42c85
     home: https://github.com/rakshasa/rtorrent
@@ -190,7 +202,7 @@ entries:
   rtorrent-flood:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: 2019-08-13T00:55:20.343017751Z
+    created: 2020-01-07T02:54:26.92198014Z
     description: A web frontend for rtorrent
     digest: 934c1bd9b7089daf84a6851fda3ef6d15140c311a8fa9c776509ed3f55dcf6cb
     home: https://github.com/jfurrow/flood
@@ -204,7 +216,7 @@ entries:
   sickchill:
   - apiVersion: v1
     appVersion: master
-    created: 2019-08-13T00:55:20.343252985Z
+    created: 2020-01-07T02:54:26.922514036Z
     description: A management interface for downloaded tv shows
     digest: 03938a753ee2a83c8b0266ecb3b14503e2fa9143e262ca31dce625e44162c796
     home: https://github.com/Sickchill/Sickchill
@@ -218,7 +230,7 @@ entries:
   sickrage:
   - apiVersion: v1
     appVersion: master
-    created: 2019-08-13T00:55:20.343488683Z
+    created: 2020-01-07T02:54:26.923116239Z
     description: A management interface for downloaded tv shows
     digest: 8dad17a187abb6e5ac1cb483e4d580165939a5021866d1f8c1d7ce12a395b800
     home: https://github.com/SiCKRAGE/SiCKRAGE
@@ -232,7 +244,7 @@ entries:
   smart-exporter:
   - apiVersion: v1
     appVersion: "0.2"
-    created: 2019-08-13T00:55:20.344713211Z
+    created: 2020-01-07T02:54:26.924081823Z
     description: Smart metrics exporter for prometheus
     digest: e2d8f8e7158355ff0316cebea6e12cb4fe1f0b68557f0e3c4c477d56b20adc58
     home: https://github.com/prometheus/node_exporter/blob/master/text_collector_examples/smartmon.sh
@@ -245,7 +257,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: "0.2"
-    created: 2019-08-13T00:55:20.343895684Z
+    created: 2020-01-07T02:54:26.923888931Z
     description: Smart metrics exporter for prometheus
     digest: b2918d7ec1a2e80f72e96e9c5f9679a31423c6735b01aa00c31aed53f80646ad
     home: https://github.com/prometheus/node_exporter/blob/master/text_collector_examples/smartmon.sh
@@ -258,7 +270,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "6.6"
-    created: 2019-08-13T00:55:20.343694365Z
+    created: 2020-01-07T02:54:26.923682981Z
     description: Writes smart metrics to a file for consumption via prometheus node_exporter
     digest: 36526f127f031257fe59c15f2d3f54aa5ecb45efe9eec0c7b9eb3f70b15da708
     home: https://github.com/prometheus/node_exporter/blob/master/text_collector_examples/smartmon.sh
@@ -272,7 +284,7 @@ entries:
   tautulli:
   - apiVersion: v1
     appVersion: 2.1.26
-    created: 2019-08-13T00:55:20.345282381Z
+    created: 2020-01-07T02:54:26.924314397Z
     description: Plex monitoring/tracking
     digest: a8f339857c475fd1663819efccc26889ec57aa5fe10e43edf91d9c2ef15790e9
     maintainers:
@@ -282,4 +294,4 @@ entries:
     urls:
     - tautulli/tautulli-0.1.0.tgz
     version: 0.1.0
-generated: 2019-08-13T00:55:20.339404576Z
+generated: 2020-01-07T02:54:26.917895878Z
