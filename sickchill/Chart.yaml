@@ -3,7 +3,7 @@ appVersion: "master"
 home: https://github.com/Sickchill/Sickchill
 description: A management interface for downloaded tv shows
 name: sickchill
-version: 0.1.0
+version: 0.2.0
 maintainers:
   - name: Bryan Alves
     email: bryanalves@gmail.com

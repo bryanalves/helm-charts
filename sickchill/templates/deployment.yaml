@@ -23,6 +23,13 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PUID
+              value: {{ .Values.uid | quote }}
+            - name: PGID
+              value: {{ .Values.gid | quote }}
+            - name: TZ
+              value: {{ .Values.tz | quote }}
           volumeMounts:
             - name: sickchill
               mountPath: /config
@@ -30,9 +37,6 @@ spec:
               mountPath: /data/download
             - name: processed
               mountPath: /data/processed
-            - name: localtime
-              mountPath: /etc/localtime
-              readOnly: true
           ports:
             - name: sickchill
               containerPort: 8081
@@ -79,7 +83,3 @@ spec:
         {{- else }}
           emptyDir: {}
         {{- end }}
-
-        - name: localtime
-          hostPath:
-            path: /etc/localtime

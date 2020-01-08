@@ -4,9 +4,13 @@
 
 replicaCount: 1
 
+uid: 1000
+gid: 1000
+tz: America/New_York
+
 image:
-  repository: bryanalves/sickchill
-  tag: 0.1
+  repository: linuxserver/sickchill
+  tag: 17e379df-ls29
   pullPolicy: IfNotPresent
 
 persistence:
