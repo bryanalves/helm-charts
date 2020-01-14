@@ -23,6 +23,13 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: PUID
+              value: {{ .Values.uid | quote }}
+            - name: PGID
+              value: {{ .Values.gid | quote }}
+            - name: TZ
+              value: {{ .Values.tz | quote }}
           volumeMounts:
             - name: couchpotato-config
               mountPath: /config

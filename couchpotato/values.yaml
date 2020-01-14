@@ -4,9 +4,13 @@
 
 replicaCount: 1
 
+uid: 1000
+gid: 1000
+tz: America/New_York
+
 image:
-  repository: bryanalves/couchpotato
-  tag: latest
+  repository: linuxserver/couchpotato
+  tag: 75e576ee-ls32
   pullPolicy: IfNotPresent
 
 persistence:

@@ -3,7 +3,7 @@ appVersion: Varies
 home: https://couchpota.to/
 description: Daemon for managing movie libraries
 name: couchpotato
-version: 0.1.0
+version: 0.2.0
 maintainers:
   - name: Bryan Alves
     email: bryanalves@gmail.com
