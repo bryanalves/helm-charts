@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "medusa.fullname" . }}
+  labels:
+    app: {{ template "medusa.name" . }}
+    chart: {{ template "medusa.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: medusa
+      protocol: TCP
+      name: medusa
+  selector:
+    app: {{ template "medusa.name" . }}
+    release: {{ .Release.Name }}
