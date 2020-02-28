@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "couchpotato.fullname" . }}
@@ -41,14 +41,6 @@ spec:
             - name: couchpotato
               containerPort: 8082
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: couchpotato
-          readinessProbe:
-            httpGet:
-              path: /
-              port: couchpotato
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
