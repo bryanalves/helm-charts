@@ -3,7 +3,7 @@ appVersion: "1.13.12"
 home: https://www.nginx.com/
 description: A generic webserver wrapper that is based on configmaps
 name: generic-web
-version: 0.1.0
+version: 0.1.1
 maintainers:
   - name: Bryan Alves
     email: bryanalves@gmail.com
