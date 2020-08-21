@@ -10,7 +10,7 @@ tz: America/New_York
 
 image:
   repository: linuxserver/sickchill
-  tag: 17e379df-ls29
+  tag: v2020.08.07-1-ls40
   pullPolicy: IfNotPresent
 
 persistence:
