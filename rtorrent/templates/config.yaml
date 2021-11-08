@@ -17,7 +17,6 @@ data:
   nginx.conf: |
     server {
       listen 0.0.0.0:80;
-      access_log /var/log/nginx/rtorrent.access_log;
       error_log /var/log/nginx/rtorrent.error_log;
 
       location /RPC2 {
