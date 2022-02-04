@@ -6,10 +6,14 @@ replicaCount: 1
 
 image:
   repository: plexinc/pms-docker
-  tag: 1.16.3.1402-22929c8a2
+  tag: 1.25.4.5487-648a8f9f9
   pullPolicy: IfNotPresent
 
 persistence:
+  transcode:
+    enabled: false
+    #existingClaim: plex-transcode
+
   config:
     enabled: false
     #existingClaim: plex-config

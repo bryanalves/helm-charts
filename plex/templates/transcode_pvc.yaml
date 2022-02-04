@@ -1,0 +1,34 @@
+{{- if and .Values.persistence.transcode.enabled (not .Values.persistence.transcode.existingClaim) -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+{{- if .Values.persistence.transcode.annotations }}
+  annotations:
+{{ toYaml .Values.persistence.transcode.annotations | indent 4 }}
+{{- end }}
+  name: {{ template "plex.fullname" . }}-transcode
+  labels:
+    app.kubernetes.io/name: {{ template "plex.fullname" . }}
+    helm.sh/chart: {{ include "plex.chart" . }}
+    app.kubernetes.io/instance: "{{ .Release.Name }}"
+    app.kubernetes.io/managed-by: "{{ .Release.Service }}"
+spec:
+  accessModes:
+    - {{ .Values.persistence.transcode.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.persistence.transcode.size | quote }}
+
+{{- if .Values.persistence.transcode.selector }}
+  selector:
+{{ toYaml .Values.persistence.transcode.selector | indent 4 }}
+{{- end}}
+
+{{- if .Values.persistence.transcode.storageClass }}
+{{- if (eq "-" .Values.persistence.transcode.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.persistence.transcode.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}
