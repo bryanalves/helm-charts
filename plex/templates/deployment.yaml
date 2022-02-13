@@ -28,12 +28,8 @@ spec:
               mountPath: /config
             - name: plex-transcode
               mountPath: /transcode
-            - name: plex-tv
-              mountPath: /data/tv
-            - name: plex-movies
-              mountPath: /data/movies
-            - name: plex-music
-              mountPath: /data/music
+            - name: plex-media
+              mountPath: /data
           ports:
             - name: plex
               containerPort: 32400
@@ -77,27 +73,10 @@ spec:
           emptyDir: {}
         {{- end }}
 
-        - name: plex-tv
-        {{- if .Values.persistence.tv.enabled }}
+        - name: plex-media
+        {{- if .Values.persistence.media.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.tv.existingClaim }}
+            claimName: {{ .Values.persistence.media.existingClaim }}
         {{- else }}
           emptyDir: {}
         {{- end }}
-
-        - name: plex-movies
-        {{- if .Values.persistence.movies.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.movies.existingClaim }}
-        {{- else }}
-          emptyDir: {}
-        {{- end }}
-
-        - name: plex-music
-        {{- if .Values.persistence.music.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.music.existingClaim }}
-        {{- else }}
-          emptyDir: {}
-        {{- end }}
-

@@ -18,17 +18,9 @@ persistence:
     enabled: false
     #existingClaim: plex-config
 
-  tv:
+  media:
     enabled: false
-    #existingClaim: tv
-
-  movies:
-    enabled: false
-    #existingClaim: movies
-
-  music:
-    enabled: false
-    #existingClaim: music
+    #existingClaim: media
 
 service:
   type: ClusterIP
