@@ -47,7 +47,7 @@ spec:
           tty: true
           volumeMounts:
             - name: rtorrent
-              mountPath: /data/rtorrent
+              mountPath: /app/config
             - name: conf
               mountPath: /app/rtorrent_extra.rc
               subPath: rtorrent_extra.rc
