@@ -26,6 +26,9 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /data
+          {{- if ne (len .Values.extraVolumeMounts) 0 }}
+{{ toYaml .Values.extraVolumeMounts | indent 12 }}
+          {{- end }}
           env:
             - name: RTORRENT_SCGI_HOST
               value: {{ .Values.rtorrentHost }}
@@ -66,4 +69,7 @@ spec:
             {{- end }}
         {{- else }}
           emptyDir: {}
+        {{- end }}
+        {{- if ne (len .Values.extraVolumes) 0 }}
+{{ toYaml .Values.extraVolumes | indent 8 }}
         {{- end }}
