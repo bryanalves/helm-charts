@@ -5,15 +5,18 @@
 replicaCount: 1
 
 image:
-  repository: bryanalves/flood
-  tag: 0.0.3
+  repository: jesec/flood
+  tag: 4.7.0
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
   port: 80
 
-rtorrentHost: rtorrent
+env:
+  RTORRENT_SCGI_HOST: rtorrent
+  FLOOD_OPTION_rundir: /config
+  FLOOD_OPTION_host: 0.0.0.0
 
 persistence:
   enabled: false

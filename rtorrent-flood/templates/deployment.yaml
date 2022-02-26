@@ -25,13 +25,15 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - name: config
-              mountPath: /data
+              mountPath: /config
           {{- if ne (len .Values.extraVolumeMounts) 0 }}
 {{ toYaml .Values.extraVolumeMounts | indent 12 }}
           {{- end }}
           env:
-            - name: RTORRENT_SCGI_HOST
-              value: {{ .Values.rtorrentHost }}
+           {{- range $key, $value := .Values.env }}
+            - name: {{ $key | quote }}
+              value: {{ $value | quote }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 3000
