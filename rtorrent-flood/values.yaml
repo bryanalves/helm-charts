@@ -53,5 +53,9 @@ tolerations: []
 
 affinity: {}
 
+security:
+  uid: 0
+  gid: 0
+
 extraVolumes: []
 extraVolumeMounts: []
