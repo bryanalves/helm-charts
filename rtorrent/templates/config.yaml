@@ -9,15 +9,14 @@ metadata:
     heritage: {{ .Release.Service }}
 
 data:
-{{- with .Values.extraConfig }}
-  rtorrent_extra.rc:
+{{- with .Values.rtorrentConfig }}
+  rtorrent.rc:
 {{ toYaml . | indent 4 }}
 {{- end }}
 
   nginx.conf: |
     server {
       listen 0.0.0.0:80;
-      error_log /var/log/nginx/rtorrent.error_log;
 
       location /RPC2 {
         scgi_pass   127.0.0.1:5000;

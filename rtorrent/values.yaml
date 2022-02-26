@@ -6,20 +6,13 @@ replicaCount: 1
 
 image:
   repository: bryanalves/rtorrent
-  tag: 0.0.3
+  tag: 0.4
   pullPolicy: IfNotPresent
 
 service:
   type: ClusterIP
   port: 5000
   httpPort: 80
-
-metricService:
-  type: ClusterIP
-  port: 9135
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "9135"
 
 ingressService:
   type: NodePort
@@ -40,7 +33,11 @@ tolerations: []
 
 affinity: {}
 
-extra_config: {}
+security:
+  uid: 0
+  gid: 0
+
+rtorrentConfig: {}
 
 extraVolumes: []
 extraVolumeMounts: []

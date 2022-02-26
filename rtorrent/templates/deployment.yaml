@@ -32,25 +32,19 @@ spec:
               containerPort: 80
               protocol: TCP
 
-        - name: {{ .Chart.Name }}-metrics
-          image: aemiller/rtorrent-exporter
-          imagePullPolicy: IfNotPresent
-          ports:
-            - name: metrics
-              containerPort: 9135
-              protocol: TCP
-          args: ["-rtorrent-addr", "http://localhost/RPC2"]
-
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            runAsUser: {{ .Values.security.uid }}
+            runAsGroup: {{ .Values.security.gid }}
           tty: true
           volumeMounts:
             - name: rtorrent
               mountPath: /app/config
             - name: conf
-              mountPath: /app/rtorrent_extra.rc
-              subPath: rtorrent_extra.rc
+              mountPath: /app/rtorrent.rc
+              subPath: rtorrent.rc
           {{- if ne (len .Values.extraVolumeMounts) 0 }}
 {{ toYaml .Values.extraVolumeMounts | indent 12 }}
           {{- end }}
