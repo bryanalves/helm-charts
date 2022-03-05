@@ -3,7 +3,7 @@ appVersion: "1.25.4.5487"
 home: https://www.plex.tv/
 description: A media center and sharing solution
 name: plex
-version: 0.4.0
+version: 0.5.0
 maintainers:
   - name: Bryan Alves
     email: bryanalves@gmail.com

@@ -28,8 +28,10 @@ service:
 
 ingress:
   enabled: false
+  # ingressClassName: nginx
   annotations: {}
   path: /
+  pathType: Prefix
   hosts:
     - chart-example.local
   tls: []
