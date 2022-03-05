@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "3.0.4958-ls72"
 description: Media request management frontend
 name: ombi
-version: 0.3.0
+version: 0.4.0
 maintainers:
   - name: Bryan Alves
     email: bryanalves@gmail.com
