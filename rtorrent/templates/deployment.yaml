@@ -38,7 +38,7 @@ spec:
           securityContext:
             runAsUser: {{ .Values.security.uid }}
             runAsGroup: {{ .Values.security.gid }}
-          tty: true
+          tty: {{ .Values.tty }}
           volumeMounts:
             - name: rtorrent
               mountPath: /app/config

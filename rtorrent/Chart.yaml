@@ -3,7 +3,7 @@ appVersion: "0.9.6"
 home: https://github.com/rakshasa/rtorrent
 description: A CLI/XMLRPC torrent client
 name: rtorrent
-version: 0.4.0
+version: 0.6.0
 maintainers:
   - name: Bryan Alves
     email: bryanalves@gmail.com
